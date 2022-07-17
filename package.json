@@ -1,6 +1,6 @@
 {
   "name": "react-otp-dynamodb",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "An OTP component from the sign in flow, uses dynamodb as the backend",
   "author": "superflows-dev",
   "license": "MIT",

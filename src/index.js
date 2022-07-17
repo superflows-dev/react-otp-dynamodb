@@ -140,15 +140,7 @@ export const Otp = (props) => {
           await DynamoDB.updateData(props.awsRegion, props.awsSecret, props.awsKey, paramsUpdateCredentials)
   
           const uuid = generateUUID();
-  
-          // var paramsTokens = {
-          //     TableName : "Account_Tokens",
-          //     Item: {
-          //       token: uuid,
-          //       userId: resultCredentials.Item.userId
-          //     }
-          // }
-          // await DynamoDB.putData(props.awsRegion, props.awsSecret, props.awsKey, paramsTokens)
+
           var tokenArr = resultCredentials.Item.tokens;
           if(tokenArr != null) {
 
@@ -177,6 +169,7 @@ export const Otp = (props) => {
           }
     
           await DynamoDB.updateData(props.awsRegion, props.awsSecret, props.awsKey, paramsUpdateTokens)
+          if(props.onSubmitResult != null) props.onSubmitResult(props.email, uuid, true);
           
         } else {
           setError(Constants.ERROR_INCORRECT_OTP)
