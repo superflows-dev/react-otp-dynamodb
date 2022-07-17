@@ -54,7 +54,7 @@ export const Otp = (props) => {
     if(resultCredentials.Item == null) {
 
       setError(Constants.ERROR_EMAIL_NOT_FOUND)
-      if(props.onSubmitResult != null) props.onSubmitResult(otp, false);
+      if(props.onSubmitResult != null) props.onSubmitResult(otp, '', false);
 
     } else {
 
@@ -105,7 +105,7 @@ export const Otp = (props) => {
     if(resultCredentials.Item == null) {
 
       setError(Constants.ERROR_EMAIL_NOT_FOUND)
-      if(props.onSubmitResult != null) props.onSubmitResult(otp, false);
+      if(props.onSubmitResult != null) props.onSubmitResult(otp, '', false);
 
     } else {
 
@@ -113,14 +113,12 @@ export const Otp = (props) => {
       if(currTime > parseInt(resultCredentials.Item.expiry)) {
 
         setError(Constants.ERROR_EXPIRED_OTP)
-        if(props.onSubmitResult != null) props.onSubmitResult(props.email, false);
+        if(props.onSubmitResult != null) props.onSubmitResult(props.email, '', false);
 
       } else {
 
         if(otp == resultCredentials.Item.otp) {
 
-          if(props.onSubmitResult != null) props.onSubmitResult(props.email, true);
-  
           let paramsUpdateCredentials = {
             TableName: "Account_Credentials",
             Key:{
