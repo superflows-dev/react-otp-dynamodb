@@ -202,7 +202,7 @@ export const Otp = (props) => {
           <VSpace />
           <InfoBlock caption={props.captionInfo} />
           <VSpace />
-          <InputOtp setValue={setOtp}/>
+          <InputOtp setValue={setOtp} autofocus={true}/>
           <AlertError caption={error}/>
           {switchResendSuccess > 0 && 
           <div>
