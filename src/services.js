@@ -18,11 +18,11 @@ async function getCredentials(region, secret, key, email) {
 
 }
 
-async function resetOtpExpiry(region, secret, key) {
+async function resetOtpExpiry(region, secret, key, email) {
     let paramsUpdateCredentials = {
         TableName: "Account_Credentials",
         Key:{
-            email: props.email
+            email: email
         },
         UpdateExpression: "set #otp = :otpVal, #expiry = :expiry",
         ExpressionAttributeNames: {
@@ -38,12 +38,12 @@ async function resetOtpExpiry(region, secret, key) {
     await DynamoDB.updateData(region, secret, key, paramsUpdateCredentials)
 }
 
-async function updateToken(region, secret, key, tokenArr) {
+async function updateToken(region, secret, key, email, tokenArr) {
 
     let paramsUpdateTokens = {
     TableName: "Account_Credentials",
     Key:{
-        email: props.email
+        email: email
     },
     UpdateExpression: "set #otp = :otpVal, #expiry = :expiry, #tokens = :tokens",
     ExpressionAttributeNames: {
@@ -62,12 +62,12 @@ async function updateToken(region, secret, key, tokenArr) {
 
 }
 
-async function updateOtpExpiry(region, secret, key, otp, expiry) {
+async function updateOtpExpiry(region, secret, key, email, otp, expiry) {
 
     let paramsUpdateCredentials = {
         TableName: "Account_Credentials",
         Key:{
-            email: props.email
+            email: email
         },
         UpdateExpression: "set #otp = :otpVal, #expiry = :expiry",
         ExpressionAttributeNames: {

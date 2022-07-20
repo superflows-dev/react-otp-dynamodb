@@ -56,7 +56,7 @@ export const Otp = (props) => {
       const otpRegen = generateOTP();
       const expiry = parseInt(new Date().getTime()/1000) + 24*60*60;
 
-      await Services.updateOtpExpiry(props.awsRegion, props.awsSecret, props.awsKey, otpRegen, expiry)
+      await Services.updateOtpExpiry(props.awsRegion, props.awsSecret, props.awsKey, props.email, otpRegen, expiry)
 
       SesHelper.sendTemplatedEmail(props.awsRegion, props.awsSecret, props.awsKey, props.emailerSource,[props.email], [], props.template, "{\"project\": \"" + props.project + "\", \"name\": \"" + resultCredentials.Item.firstName + "\", \"otp\": \"" + otpRegen + "\"}", [])
 
@@ -92,7 +92,7 @@ export const Otp = (props) => {
 
         if(otp == resultCredentials.Item.otp) {
 
-          await Services.resetOtpExpiry(props.awsRegion, props.awsSecret, props.awsKey)
+          await Services.resetOtpExpiry(props.awsRegion, props.awsSecret, props.awsKey, props.email)
   
           const uuid = generateUUID();
 
@@ -105,7 +105,7 @@ export const Otp = (props) => {
 
           tokenArr.push(uuid);
 
-          await Services.updateToken(props.awsRegion, props.awsSecret, props.awsKey, tokenArr);
+          await Services.updateToken(props.awsRegion, props.awsSecret, props.awsKey, props.email, tokenArr);
 
           if(props.onSubmitResult != null) props.onSubmitResult(props.email, uuid, true);
           
@@ -141,7 +141,7 @@ export const Otp = (props) => {
           </div>
           }
           <VSpace />
-          <ButtonTimer timer={10} captionBefore="Resend OTP in " captionAfter="Resend OTP" onClick={() => {onResend()}}/>
+          <ButtonTimer timer={30} captionBefore="Resend OTP in " captionAfter="Resend OTP" onClick={() => {onResend()}}/>
           <VSpace />
           <ButtonNext caption={props.buttonCaption} disabled={otp.length === 0} onClick={() => {onClick()}}/>
 

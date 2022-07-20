@@ -12,7 +12,7 @@ This component is under active development. Expect frequent updates.
 
 This is a single page responsive component that provides the otp functionality, in a password-less otp based sign in flow. It is a ready-to-use component.
 
-<img width="300" src="https://user-images.githubusercontent.com/108924653/179774995-4cafeafc-b6ed-490b-815e-c3af2dea60aa.png">
+<img width="300" src="https://user-images.githubusercontent.com/108924653/179958693-30ded03b-a16d-4a9e-ac15-dcfe332efb2a.png">
 
 ## Install
 
