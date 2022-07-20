@@ -118,6 +118,38 @@ export default App
 
 ```
 
+## Tests
+
+```bash
+
+PASS src/index.test.js (29.32s)
+  ✓ Render (41ms)
+  ✓ Auto focus on input (8ms)
+  ✓ Verify button should be initially disabled (7ms)
+  ✓ Submit button should be initially disabled (12ms)
+  ✓ Submit button should enable / disable after valid / invalid otp value (4072ms)
+  ✓ email not found (2017ms)
+  ✓ otp has expired (2017ms)
+  ✓ otp has not expired, but is incorrect (2019ms)
+  ✓ otp has not expired, and is correct (2017ms)
+  ✓ Resend button should enable after 30 seconds (14019ms)
+
+--------------|----------|----------|----------|----------|-------------------|
+File          |  % Stmts | % Branch |  % Funcs |  % Lines | Uncovered Line #s |
+--------------|----------|----------|----------|----------|-------------------|
+All files     |    80.56 |    63.33 |    64.29 |    81.82 |                   |
+ constants.js |      100 |      100 |      100 |      100 |                   |
+ index.js     |    86.89 |    63.33 |       80 |    89.09 |51,52,65,88,89,146 |
+ services.js  |       40 |      100 |       25 |       40 | 22,38,43,61,67,83 |
+--------------|----------|----------|----------|----------|-------------------|
+Test Suites: 1 passed, 1 total
+Tests:       10 passed, 10 total
+Snapshots:   0 total
+Time:        30.532s
+Ran all test suites.
+
+```
+
 ## License
 
 MIT © [superflows-dev](https://github.com/superflows-dev)

@@ -1,9 +1,10 @@
 import React from 'react'
 import { useState } from "react";
-import { Constants } from '../constants';
+import { Constants } from './constants';
 import { VSpace, InputOtp, LogoMast, AlertError, ButtonNext, ButtonTimer, AlertSuccess, InfoBlock } from 'react-ui-components-superflows';
 import * as DynamoDB from  'react-dynamodb-helper';
 import * as SesHelper from 'react-ses-helper';
+import Services from './services';
 
 import { Col, Row, Button, Container } from 'react-bootstrap';
 
@@ -40,16 +41,10 @@ export const Otp = (props) => {
     });
   }
 
+
   async function onResend() {
 
-    var paramsCredentials = {
-        TableName: "Account_Credentials",
-        Key : { 
-            "email" : props.email,
-        }
-    };
-
-    let resultCredentials = await DynamoDB.getData(props.awsRegion, props.awsSecret, props.awsKey, paramsCredentials)
+    const resultCredentials = await Services.getCredentials(props.awsRegion, props.awsSecret, props.awsKey, props.email);
 
     if(resultCredentials.Item == null) {
 
@@ -61,23 +56,7 @@ export const Otp = (props) => {
       const otpRegen = generateOTP();
       const expiry = parseInt(new Date().getTime()/1000) + 24*60*60;
 
-      let paramsUpdateCredentials = {
-        TableName: "Account_Credentials",
-        Key:{
-            email: props.email
-        },
-        UpdateExpression: "set #otp = :otpVal, #expiry = :expiry",
-        ExpressionAttributeNames: {
-            "#otp": "otp",
-            "#expiry": "expiry",
-        },
-        ExpressionAttributeValues: {
-            ":otpVal": otpRegen,
-            ":expiry": expiry
-        }
-      }
-
-      await DynamoDB.updateData(props.awsRegion, props.awsSecret, props.awsKey, paramsUpdateCredentials)
+      await Services.updateOtpExpiry(props.awsRegion, props.awsSecret, props.awsKey, otpRegen, expiry)
 
       SesHelper.sendTemplatedEmail(props.awsRegion, props.awsSecret, props.awsKey, props.emailerSource,[props.email], [], props.template, "{\"project\": \"" + props.project + "\", \"name\": \"" + resultCredentials.Item.firstName + "\", \"otp\": \"" + otpRegen + "\"}", [])
 
@@ -94,14 +73,8 @@ export const Otp = (props) => {
 
     setError("")
         
-    var paramsCredentials = {
-        TableName: "Account_Credentials",
-        Key : { 
-            "email" : props.email,
-        }
-    };
-
-    let resultCredentials = await DynamoDB.getData(props.awsRegion, props.awsSecret, props.awsKey, paramsCredentials)
+    const resultCredentials = await Services.getCredentials(props.awsRegion, props.awsSecret, props.awsKey, props.email);
+    
     if(resultCredentials.Item == null) {
 
       setError(Constants.ERROR_EMAIL_NOT_FOUND)
@@ -119,23 +92,7 @@ export const Otp = (props) => {
 
         if(otp == resultCredentials.Item.otp) {
 
-          let paramsUpdateCredentials = {
-            TableName: "Account_Credentials",
-            Key:{
-                email: props.email
-            },
-            UpdateExpression: "set #otp = :otpVal, #expiry = :expiry",
-            ExpressionAttributeNames: {
-                "#otp": "otp",
-                "#expiry": "expiry",
-            },
-            ExpressionAttributeValues: {
-                ":otpVal": '',
-                ":expiry": ''
-            }
-          }
-    
-          await DynamoDB.updateData(props.awsRegion, props.awsSecret, props.awsKey, paramsUpdateCredentials)
+          await Services.resetOtpExpiry(props.awsRegion, props.awsSecret, props.awsKey)
   
           const uuid = generateUUID();
 
@@ -148,25 +105,8 @@ export const Otp = (props) => {
 
           tokenArr.push(uuid);
 
-          let paramsUpdateTokens = {
-            TableName: "Account_Credentials",
-            Key:{
-                email: props.email
-            },
-            UpdateExpression: "set #otp = :otpVal, #expiry = :expiry, #tokens = :tokens",
-            ExpressionAttributeNames: {
-                "#otp": "otp",
-                "#expiry": "expiry",
-                "#tokens": "tokens",
-            },
-            ExpressionAttributeValues: {
-                ":otpVal": '',
-                ":expiry": '',
-                ":tokens": tokenArr
-            }
-          }
-    
-          await DynamoDB.updateData(props.awsRegion, props.awsSecret, props.awsKey, paramsUpdateTokens)
+          await Services.updateToken(props.awsRegion, props.awsSecret, props.awsKey, tokenArr);
+
           if(props.onSubmitResult != null) props.onSubmitResult(props.email, uuid, true);
           
         } else {
@@ -201,7 +141,7 @@ export const Otp = (props) => {
           </div>
           }
           <VSpace />
-          <ButtonTimer timer={30} captionBefore="Resend OTP in " captionAfter="Resend OTP" onClick={() => {onResend()}}/>
+          <ButtonTimer timer={10} captionBefore="Resend OTP in " captionAfter="Resend OTP" onClick={() => {onResend()}}/>
           <VSpace />
           <ButtonNext caption={props.buttonCaption} disabled={otp.length === 0} onClick={() => {onClick()}}/>
 

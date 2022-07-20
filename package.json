@@ -15,18 +15,20 @@
     "build": "microbundle-crl --no-compress --format modern,cjs",
     "start": "microbundle-crl watch --no-compress --format modern,cjs",
     "prepare": "run-s build",
-    "test": "run-s test:unit test:lint test:build",
+    "test": "run-s test:unit",
     "test:build": "run-s build",
     "test:lint": "eslint .",
-    "test:unit": "cross-env CI=1 react-scripts test --env=jsdom",
+    "test:unit": "cross-env CI=1 react-scripts test --env=jsdom --verbose=true --coverage",
     "test:watch": "react-scripts test --env=jsdom",
     "predeploy": "cd example && npm install && npm run build",
     "deploy": "gh-pages -d example/build"
   },
   "peerDependencies": {
-    "react": "^16.0.0"
+    "react": "^16.0.0||^17.0.0||^18.0.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^12.1.5",
     "babel-eslint": "^10.0.3",
     "cross-env": "^7.0.3",
     "eslint": "^6.8.0",
@@ -48,12 +50,12 @@
     "react-scripts": "^3.4.4"
   },
   "dependencies": {
-    "aws-sdk": "^2.1175.0",
-    "bootstrap": "^5.1.3",
+    "aws-sdk": "^2.1178.0",
+    "bootstrap": "^5.2.0",
     "react-bootstrap": "^2.4.0",
-    "react-dynamodb-helper": "^1.0.5",
-    "react-ses-helper": "^1.0.1",
-    "react-ui-components-superflows": "^1.0.14"
+    "react-dynamodb-helper": "^1.0.6",
+    "react-ses-helper": "^1.0.4",
+    "react-ui-components-superflows": "^1.0.17"
   },
   "files": [
     "dist"
