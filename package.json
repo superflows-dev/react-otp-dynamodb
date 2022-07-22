@@ -1,6 +1,6 @@
 {
   "name": "react-otp-dynamodb",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "An OTP component from the sign in flow, uses dynamodb as the backend",
   "author": "superflows-dev",
   "license": "MIT",
@@ -50,12 +50,12 @@
     "react-scripts": "^3.4.4"
   },
   "dependencies": {
-    "aws-sdk": "^2.1178.0",
+    "aws-sdk": "^2.1179.0",
     "bootstrap": "^5.2.0",
     "react-bootstrap": "^2.4.0",
-    "react-dynamodb-helper": "^1.0.6",
-    "react-ses-helper": "^1.0.4",
-    "react-ui-components-superflows": "^1.0.17"
+    "react-dynamodb-helper": "^1.0.8",
+    "react-ses-helper": "^1.0.6",
+    "react-ui-components-superflows": "^1.0.19"
   },
   "files": [
     "dist"

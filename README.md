@@ -31,6 +31,7 @@ npm install --save react-dynamodb-helper
 npm install --save react-ses-helper
 npm install --save react-ui-components-superflows
 ```
+Review the configuration now.
 
 ## Configuration
 

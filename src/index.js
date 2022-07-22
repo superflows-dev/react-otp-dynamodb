@@ -121,6 +121,7 @@ export const Otp = (props) => {
 
   }
 
+  console.log(props);
 
   return (
 
@@ -131,19 +132,19 @@ export const Otp = (props) => {
           <VSpace />
           <LogoMast imageUrl={props.imageUrl} imageAlt={props.imageAlt} />
           <VSpace />
-          <InfoBlock caption={props.captionInfo} />
+          <InfoBlock caption={props.captionInfo} custom={{backgroundColor:props.theme.infoBackgroundColor, color:props.theme.infoColor, borderColor:props.theme.infoBorderColor}}/>
           <VSpace />
           <InputOtp setValue={setOtp} autofocus={true} onEnterPressed={() => {onClick()}}/>
-          <AlertError caption={error}/>
+          <AlertError caption={error} custom={{backgroundColor: props.theme.dangerBackgroundColor, color: props.theme.dangerColor, borderColor: props.theme.dangerBorderColor}}/>
           {switchResendSuccess > 0 && 
           <div>
             <AlertSuccess caption="OTP resent successfully" />
           </div>
           }
           <VSpace />
-          <ButtonTimer timer={30} captionBefore="Resend OTP in " captionAfter="Resend OTP" onClick={() => {onResend()}}/>
+          <ButtonTimer timer={30} captionBefore="Resend OTP in " captionAfter="Resend OTP" onClick={() => {onResend()}} custom={{backgroundColor:props.theme.linkButtonBackgroundColor, color:props.theme.linkButtonColor}}/>
           <VSpace />
-          <ButtonNext caption={props.buttonCaption} disabled={otp.length === 0} onClick={() => {onClick()}}/>
+          <ButtonNext caption={props.buttonCaption} disabled={otp.length === 0} onClick={() => {onClick()}} custom={{backgroundColor:props.theme.primaryButtonBackgroundColor, color:props.theme.primaryButtonColor}}/>
 
         </Col>
       </Row>
