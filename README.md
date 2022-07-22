@@ -68,6 +68,7 @@ AWS region, secret and access key form the credentials. These are required to us
 
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Themes from 'react-ui-themes-superflows';
 
 import { Otp } from 'react-otp-dynamodb'
 
@@ -93,6 +94,7 @@ const App = () => {
       emailerSource: source email configured to send emails in aws ses
       email: email that has come from the sign in screen
       captionInfo: information block
+      theme: ui theme
 
     */
 
@@ -109,6 +111,7 @@ const App = () => {
       emailerSource="sup****************@****ail.com"
       email="hru********n**e@***ail.com"
       captionInfo={"One time password (otp) has been sent to hr********@**il.com"}
+      theme={Themes.getTheme("Default")}
     />
 
   )
